@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="utf-8">
+        <title>D3 - liaison (enter)</title>
+        <script type="text/javascript" src="static/d3.v7.min.js"></script>
+		<link rel="stylesheet" href="static/bootstrap.min.css" >
+		<link rel="stylesheet" href="static/d3.sb.css" >
+		
+		<style>
+		.bar {    
+			display: inline-block;
+			width: 20px;
+			background-color: teal;
+			margin-right: 2px;
+		}
+		
+		.odd {
+			background-color: blue;
+		}	
+		</style>
+		
+    </head>
+    <body>
+		
+        <script type="text/javascript">
+        var donnees = [0, 1, 2, 4, 8, 16, 32, 64];
+		d3.select("body")
+		    .selectAll("div")
+			.data(donnees)
+			.enter()
+			.append("div")
+				.classed('bar', true)
+				.style("height", function (d) {
+					return (d * 4) + 'px';
+				})
+				.classed('odd', function (d, i) {
+					return i % 2===1;
+				})
+				
+
+        </script>
+    </body>
+</html>
