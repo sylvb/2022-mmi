@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="utf-8">
+        <title>D3 - exercice 1</title>
+        <script type="text/javascript" src="static/d3.v7.min.js"></script>
+		<link rel="stylesheet" href="static/bootstrap.min.css" >
+		
+		
+		<style>
+
+		</style>
+    </head>
+    <body>
+		
+		<h1>Div</h1>
+		<div id="pluvio" style="margin-bottom: 20px"></div>
+		
+		<h1>SVG</h1>
+		<svg style="border: 2px solid grey" width="640" height="400"></svg>
+        <script type="text/javascript">
+        var station = {"nom":"Brest","mois":[{"precip":143.8},{"precip":111.7},{"precip":95.8},{"precip":92.1},{"precip":79},{"precip":59.8},{"precip":66.8},{"precip":66.8},{"precip":83.3},{"precip":129},{"precip":134.1},{"precip":147.8}]};
+
+		// version dans un div
+		d3.select("div#pluvio")			
+			.selectAll("div")			
+			.data(station.mois)
+			.enter()
+			.append("div")
+				// texte
+				.text(function (donnee, indice) {
+					return donnee.precip + 'mm';
+				})
+				// largeur
+				.style("width", function (donnee, i) {
+					return (donnee.precip * 2)+'px'
+				})
+				// couleur de fond
+				.style("background-color", function (donnee, i) {
+					return 'rgb(100,100, '+(100 + donnee.precip)+')';
+				})
+				.style("margin-bottom", '1px')
+
+		// version SVG
+		
+		// dessiner les bandes
+		d3.select("svg")
+			.selectAll("rect")
+			.data(station.mois)
+			.enter()
+			.append("rect")
+				// largeur
+				.attr("width", 50)
+				// hauteur
+				.attr("height", function (donnee, indice) {
+					return donnee.precip * 2;
+				})
+				// position horizontale
+				.attr("x", function (donnee, indice) {
+					return indice * 52;
+				})
+				// position verticale
+				.attr("y", function (donnee, indice) {
+					return 400 - (donnee.precip * 2)
+				})
+				// couleur de fond
+				.style("fill", function (donnee, i) {
+					return 'rgb(100,100, '+(100 + donnee.precip)+')';
+				})
+		
+		// textes
+		d3.select("svg")
+			.selectAll("text")
+			.data(station.mois)
+			.enter()
+			.append("text")
+				// utiliser le centre comme référence pour le placement horizontal
+				.style("text-anchor", "middle")	
+				// utiliser le bas comme référence pour le placement vertical 
+				.style("dominant-baseline", "text-top ")
+				// contenu
+				.text(function (donnee, indice) {
+					return donnee.precip;
+				})
+				// position horizontal
+				.attr("x", function (donnee, indice) {
+					return indice * 52 + (52 / 2);
+				})
+				.attr("y", function (donnee, indice) {
+					return 400 - (donnee.precip * 2) - 5 
+				})
+		</script>
+    </body>
+</html>
