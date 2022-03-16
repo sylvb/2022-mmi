@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="utf-8">
+        <title>D3 - exercice 1</title>
+        <script type="text/javascript" src="static/d3.v7.min.js"></script>
+		<link rel="stylesheet" href="static/bootstrap.min.css" >
+		
+		
+		<style>
+
+			
+		</style>
+    </head>
+    <body>
+		
+        <script type="text/javascript">
+        var station = {"nom":"Brest","mois":[{"precip":143.8},{"precip":111.7},{"precip":95.8},{"precip":92.1},{"precip":79},{"precip":59.8},{"precip":66.8},{"precip":66.8},{"precip":83.3},{"precip":129},{"precip":134.1},{"precip":147.8}]};
+
+		d3.select("body")
+		    .selectAll("div")
+			.data(station.mois)
+			.enter()
+			.append("div")
+				.text(function (d, i) {
+					return d.precip
+				})
+		</script>
+    </body>
+</html>
