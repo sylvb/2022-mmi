@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="utf-8">
+        <title>D3 - datum()</title>
+        <script type="text/javascript" src="static/d3.v7.min.js"></script>
+		<link rel="stylesheet" href="static/bootstrap.min.css" >
+		<link rel="stylesheet" href="static/d3.sb.css" >
+		
+		<style>
+		.bar {    
+			display: inline-block;
+			width: 20px;
+			background-color: teal;
+			margin-right: 2px;
+		}
+		
+		.odd {
+			background-color: blue;
+		}	
+		</style>
+		
+    </head>
+    <body>
+		<h1>selection.datum()</h1>
+		
+		
+        <script type="text/javascript">
+        var donnees = [0, 1, 2, 4, 8, 16, 32, 64];
+        
+		// liaisons donnees data(donnees)
+		d3.select("body")
+			.selectAll("div")
+			.data(donnees)
+			.enter()
+			.append("div")
+				.style("font-weight", "bold")
+				.attr("id", function (d, i) {
+					return "div_" + i
+				}) 
+				
+		// affectation donnee datum(donnee)
+		d3.select('#div_'+4).datum('modifié par datum(maDonnee)');
+		
+			
+		/// affichage donnees data()
+		d3.select("body")
+			.selectAll("div")
+			.text(function (d) {return d});
+
+		// demander donnees (get) datum()
+		var _divs = document.getElementsByTagName('div');
+		for (var i = 0; i < _divs.length; i++) {
+			console.log(i, 'datum()', d3.select('#div_'+i).datum());
+		}		
+        </script>
+    </body>
+</html>

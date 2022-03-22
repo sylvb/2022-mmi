@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="utf-8">
+        <title>d3.line()</title>
+        <script type="text/javascript" src="static/d3.v7.min.js"></script>
+		<link rel="stylesheet" href="static/bootstrap.min.css" >
+		<link rel="stylesheet" href="static/d3.sb.css" >
+    </head>
+    <body>
+		<h1>d3.datum().line()</h1>
+		<svg width="400" height="400"></svg>
+		
+        <script type="text/javascript">
+		var courbes = [];
+		var nbPoints = 20;
+		for (var c = 0; c <5;c++) {
+			var courbe = [0]
+			for (var i = 0; i < nbPoints; i++) {
+				courbe.push(courbe[courbe.length-1] + 2 +  ((Math.random() - 0.4) * 60))
+			}
+			
+			courbes.push(courbe);
+		}
+		
+		var maLigne = d3.line()
+			.x(function(d, i) { 
+					return i * (400/nbPoints)
+				})
+			.y(function(d) { 
+				return 300-d })
+	
+		d3.select("svg")
+			.selectAll("path")
+			.data(courbes)
+			.enter()
+			.append("path")
+			  .attr("fill", "none")
+			  .attr("stroke", function (d, i) {return d3.hsl(Math.random() * 255,100,5)})
+			  .attr("stroke-width", 2)
+			  .attr("d", function (d) {return maLigne(d)})
+
+        </script>
+    </body>
+</html>
