@@ -6,33 +6,61 @@
         <script type="text/javascript" src="static/d3.v7.min.js"></script>
 		<link rel="stylesheet" href="static/bootstrap.min.css" >
 		<link rel="stylesheet" href="static/d3.sb.css" >
+		
+		<style>
+		path {fill: none; }
+		</style>
     </head>
     <body>
-		<h1>d3.datum().line()</h1>
+		<h1>d3.line()</h1>
 		<svg width="400" height="400"></svg>
 		
         <script type="text/javascript">
 		/// génréation points aléatoires
-		var donnees = [0];
-		for (var i = 0; i < 20; i++) {
-			donnees.push(donnees[donnees.length-1] + 2 +  ((Math.random() - 0.4) * 60))
+		var lignes = [];
+		for (var l = 0; l < 3; l++) {
+			var ligne = [0]
+			for (var i = 0; i < 20; i++) {
+				ligne.push(ligne[ligne.length-1] + 2 +  ((Math.random() - 0.4) * 60))
+			}
+			lignes.push(ligne)
 		}
 		
 		
+		var echelleX = d3.scaleLinear()
+						.domain([0, 19])
+						.range([0, 400]);
+						
+		var minY  = d3.min(lignes, function (d) {return d3.min(d)})	
+		var maxY  = d3.max(lignes, function (d) {return d3.max(d)})				
+		var echelleY = d3.scaleLinear()
+						.domain([minY, maxY])
+						.range([380, 20])
+						
+		var echelleCouleur = d3.scaleLinear()
+						.domain([0, 2])
+						.range(["green", "blue"])
+						
+						
 		var maLigne = d3.line()
-			.x(function(d, i) { 
-					return i * (400/donnees.length)
+				.x(function (donnee, indice) {
+					return echelleX(indice)
 				})
-			.y(function(d) { 
-				return 300-d })
-	
-		d3.select("svg").append("path")
-		  .datum(donnees)
-		  .attr("fill", "none")
-		  .attr("stroke", "steelblue")
-		  .attr("stroke-width", 2)
-		  .attr("d", function (d) {return maLigne(d)})
+				.y(function (donnee, indice) {
+					return echelleY(donnee);
+				})
 
+		d3.select("svg")
+			.selectAll("path")
+			.data(lignes)
+			.enter()
+			.append("path")
+				.attr("d", function (donnee, indice) {
+					return maLigne(donnee)
+				})
+				.attr("stroke", function (donnee, indice) {
+					return echelleCouleur(indice)
+				})
         </script>
     </body>
 </html>

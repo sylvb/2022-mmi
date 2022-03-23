@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="utf-8">
+        <title>d3.area()</title>
+        <script type="text/javascript" src="static/d3.v7.min.js"></script>
+		<link rel="stylesheet" href="static/bootstrap.min.css" >
+		<link rel="stylesheet" href="static/d3.sb.css" >
+    </head>
+    <body>
+		<h1>d3.area()</h1>
+		<svg width="400" height="400"></svg>
+		
+        <script type="text/javascript">
+		/// génréation points aléatoires
+		var lignes = [];
+		for (var l = 0; l < 3; l++) {
+		
+			var ligne = [[0,0]]
+			var yPrec = 0;
+			for (var i = 0; i < 20; i++) {
+				var y1 = yPrec + 2 +  ((Math.random() - 0.4) * 60);
+				yPrec = y1
+				ligne.push([y1, y1 + Math.random() * y1])
+			}
+			lignes.push(ligne)
+		}
+	
+		console.log(lignes)
+
+		
+		
+		var echelleX = d3.scaleLinear()
+						.domain([0, 19])
+						.range([0, 400]);
+						
+		var minY  = d3.min(lignes, function (d) {return d3.min(d, function(d){return d[0]})})	
+		var maxY  = d3.max(lignes, function (d) {return d3.max(d, function(d){return d[1]})})
+		console.log(minY, maxY)		
+		var echelleY = d3.scaleLinear()
+						.domain([minY, maxY])
+						.range([380, 20])
+						
+		var echelleTeinte = d3.scaleLinear()
+						.domain([0, 2])
+						.range([0, 64])
+						
+						
+
+
+        </script>
+    </body>
+</html>
