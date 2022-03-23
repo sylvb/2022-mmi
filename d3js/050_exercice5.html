@@ -8,6 +8,10 @@
 
 		<style>
 			body {margin: 4em;}
+			
+			.gPrecip>text.precip {transition: 200ms;opacity: 0}
+			.gPrecip:hover>rect {opacity: 0.4}
+			.gPrecip:hover>text.precip {opacity: 1}
 		</style>
     </head>
     <body>
@@ -60,13 +64,20 @@
 		
 		var _largeurMois = echelleAbscisse(1) - echelleAbscisse(0) - 2;
 		
+		let gPrecip = d3.select("svg")
+			.selectAll("g.gPrecip")
+			.data(station.mois)
+			.enter()
+			.append("g")
+				.classed("gPrecip", true);
+
 		// dessiner les bandes
-		d3.select("svg")
+		/*d3.select("svg")
 			.selectAll("rect")
 			.data(station.mois)
 			.enter()
-			.append("rect")
-				// largeur
+			.append("rect")*/
+		gPrecip.append("rect")
 				.attr("width", _largeurMois)
 				.attr("height",echellePrecipitation(medianePrecip))
 				// position horizontale
@@ -90,11 +101,12 @@
 						})
 		
 		// textes
-		d3.select("svg")
+		/*d3.select("svg")
 			.selectAll("text.precip")
 			.data(station.mois)
 			.enter()
-			.append("text")
+			.append("text")*/
+		gPrecip.append("text")
 				.classed("precip", true)
 				// utiliser le centre comme référence pour le placement horizontal
 				.style("text-anchor", "middle")	
@@ -109,11 +121,11 @@
 					return echelleAbscisse(indice) + (_largeurMois / 2);
 				})
 				.attr("y",  360  - echellePrecipitation(medianePrecip) - 5)
-				.style("opacity", 0)	
+				//.style("opacity", 0)	
 				.transition()
 					.delay(10)
 					.duration(1000)
-					.style("opacity", 1)	
+					//.style("opacity", 1)	
 					.attr("y", function (donnee, indice) {
 						return 360 - echellePrecipitation(donnee.precip) - 5 ;
 					})
@@ -172,6 +184,53 @@
 					.delay(100)
 					.duration(1000)
 						.attr("d", function (d) {return ligneTemp(d)})
+
+		d3.select("svg")
+			.selectAll("circle.pointTemp")
+			.data(station.mois)
+			.enter()
+				.append("circle")
+				.classed("pointTemp", true)
+					.attr("r", 6)
+					.attr("cx", function (donnee, indice) {
+						return echelleAbscisse(indice) + _largeurMois/2
+					})
+					.attr("cy", function (donnee, indice) {
+						return echelleTemp(minTemp)
+					})
+					.on("mouseenter", function () {
+						let mois = d3.select(this).datum()
+						console.log("mouseenter", mois)
+						
+						let x = d3.select(this).attr("cx") - 50
+						let y = d3.select(this).attr("cy") - 50
+						
+						let gInfoTemp = d3.select("svg")
+								.append("g")
+								.classed("infoTemperature", true)
+								.style("transform", "translate("+x+"px, " + y + "px)")
+								
+						gInfoTemp.append("rect");
+						
+						gInfoTemp.append("text")
+							.text(mois.temp + "°C")
+							.attr("x", 10)
+							.attr("y", 20)
+						
+					})
+					.on("mouseleave", function () {
+						console.log("mouseleave")
+						d3.select(".infoTemperature").remove()
+					})
+					
+					.transition()
+						.delay(100)
+						.duration(1000)
+						.attr("cy", function (donnee, indice) {
+							return echelleTemp(donnee.temp)
+						})
+						
+						
 		</script>
     </body>
 </html>
