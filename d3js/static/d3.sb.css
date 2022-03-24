@@ -1,0 +1,17 @@
+body {margin: 1em;}
+
+.showScript {
+	width: 100%;
+	bottom: 0px;
+	margin-top: 40px;
+	border-top: 1px dotted grey;
+}
+
+
+svg {border: 2px solid #cccccc; }
+
+
+.sb-svgAction {margin-left: 20px;}
+
+
+

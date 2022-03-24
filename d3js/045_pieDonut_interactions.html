@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="utf-8">
+        <title>pie</title>
+        <script type="text/javascript" src="static/d3.v7.min.js"></script>
+		
+		<style>
+		.detail {transition: 200ms; opacity: 0; transform: translate(-140px, 220px)}
+		
+		.detail rect {fill: white; stroke: grey; stroke-dasharray: 1px; }
+		
+		.gPart:hover path {transition: 200ms;opacity: 0.4; transform: scale(108%)}
+		
+		.gPart:hover .detail {opacity: 1}
+		</style>
+    </head>
+    <body>
+		<svg width="640", height="640" style="border: 4px solid grey"></svg>
+		       
+		<script type="text/javascript">	
+		const csps = [{
+		        categorie: "Agriculteurs",
+		        femme: 0.8,
+		        homme: 2.2,
+		        population: 1.5
+		    }, {
+		        categorie: "Artisans, commerçants, chefs d'entreprise",
+		        femme: 4.1,
+		        homme: 8.7,
+		        population: 6.4
+		    }, {
+		        categorie: "Cadres",
+		        femme: 18.6,
+		        homme: 24.2,
+		        population: 21.5
+		    }, {
+		        categorie: "Professions intermédiaires",
+		        femme: 27.1,
+		        homme: 22.3,
+		        population: 24.6
+		    }, {
+		        categorie: "Employés",
+		        femme: 41,
+		        homme: 11.9,
+		        population: 26.1
+		    }, {
+		        categorie: "Ouvriers",
+		        femme: 7.6,
+		        homme: 29.9,
+		        population: 19
+		    }, {
+		        categorie: "Non déterminé",
+		        femme: 0.8,
+		        homme: 0.9,
+		        population: 0.9
+		    }
+		];
+		
+		
+		
+		/// arcs... calcul des angles par d3.pie()
+		const arcsPopulation = d3.pie()
+				.value(function(donnee) {return donnee.population})
+				.sort(function(donnee) {return donnee.categorie})(csps);
+		const arcsFemme = d3.pie()
+				.value(function(donnee) {return donnee.femme})
+				.sort(function(donnee) {return donnee.categorie})(csps);
+		const arcsHomme = d3.pie()
+				.value(function(donnee) {return donnee.homme})
+				.sort(function(donnee) {return donnee.categorie})(csps);
+		
+		/// regle de dessin de chaque arc
+		var arcPopulation = d3.arc()
+					.innerRadius(0)
+					.outerRadius(100);
+					
+		var arcFemme = d3.arc()
+					.innerRadius(110)
+					.outerRadius(150);	
+					
+		var arcHomme = d3.arc()
+					.innerRadius(166)
+					.outerRadius(206);	
+
+		/// couleurs
+		var cspColors = d3.scaleLinear()
+							.domain([0, csps.length-1])
+							.range([d3.hsl(0, .8, .5), d3.hsl(200, .8, .5)])
+							
+		var gGraph = d3.select("svg")
+						.append("g")
+						.attr("transform", "translate(340, 240)")
+
+		var gPop = gGraph.append("g")
+				.classed("arcsPopulation", true)
+				.selectAll("g")
+				.data(arcsPopulation)
+				.enter()
+				.append("g")
+					.classed("gPart", true)
+					
+		gPop.append("path")
+			.classed("part", true)
+			.attr("fill", function (donnee, indice) {
+				return  cspColors(indice)
+			})
+			.attr("d",  arcPopulation)
+			
+
+		var gFemmes = gGraph.append("g")
+				.classed("arcsFemmes", true)
+				.selectAll("g")
+				.data(arcsFemme)
+				.enter()
+				.append("g")
+					.classed("gPart", true)
+				
+		gFemmes.append("path")
+				.classed("part", true)
+				.attr("fill", function (donnee, indice) {
+					return  cspColors(indice)
+				})
+				.attr("d",  arcFemme)
+				
+
+		var gHomme = gGraph.append("g")
+				.classed("arcsHomes", true)
+				.selectAll("g")
+				.data(arcsHomme)
+				.enter()
+				.append("g")
+					.classed("gPart", true)
+					
+					
+		gHomme.append("path")
+			.classed("part", true)
+			.attr("fill", function (donnee, indice) {
+				return  cspColors(indice)
+			})
+			.attr("d",  arcHomme)	
+
+
+		var gDet = d3.selectAll(".gPart")
+			.append("g")
+			.classed("detail", true)
+	
+		gDet.append("rect")
+				.attr("width", 280)
+				.attr("height", 80)
+
+		gDet.append("text")
+				.text(function (donnee, indice) {
+					return donnee.data.categorie
+				})
+				.attr("x",  6)	
+				.attr("y",  16)				
+				
+		gDet.append("text")
+				.text(function (donnee, indice) {
+					return 'homme : ' + donnee.data.homme + '%'
+				})
+				.attr("x",  6)	
+				.attr("y",  34)	
+				
+		gDet.append("text")
+				.text(function (donnee, indice) {
+					return 'femme : ' + donnee.data.femme + '%'
+				})
+				.attr("x",  6)	
+				.attr("y",  52)	
+
+		gDet.append("text")
+				.text(function (donnee, indice) {
+					return 'ensemble : ' + donnee.data.population + '%'
+				})
+				.attr("x",  6)	
+				.attr("y",  70)	
+        </script>
+    </body>
+</html>

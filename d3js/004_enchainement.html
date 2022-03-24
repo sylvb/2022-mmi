@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="utf-8">
+        <title>D3 - Enchaînement</title>
+        <script type="text/javascript" src="static/d3.v7.min.js"></script>
+		<link rel="stylesheet" href="static/bootstrap.min.css" >
+    </head>
+    <body>
+		<div id="ex1"></div>
+		<div id="ex2"></div>
+        <script type="text/javascript">
+			d3.select("div#ex1")
+				.style("border", "4px dotted grey")
+				.append("div")
+					.text("bonjour")
+					.style("font-weight", "bold")
+					.style("color", "grey"); 
+			   
+			//équivalent à 
+			var ex2 = d3.select("div#ex2");
+			ex2.style("border", "4px dotted grey");
+			
+			var ex2div = ex2.append("div");
+			ex2div.text("re-bonjour");
+			ex2div.style("font-weight", "bold");
+			ex2div.style("color", "grey");
+        </script>
+    </body>
+</html>

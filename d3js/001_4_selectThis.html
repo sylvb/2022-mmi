@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="utf-8">
+        <title>D3 - select(this)</title>
+        <script type="text/javascript" src="static/d3.v7.min.js"></script>
+
+		
+    </head>
+    <body>
+		<div style="display: inline-block; border: 2px dashed grey; width: 100px; height: 100px; margin: 100px;">0</div>
+		
+		<script type="text/javascript">
+			var angle = 0;
+			
+			
+			d3.select("div").on("click", function(event) {
+				console.log('click')
+				angle += 15;
+				
+				d3.select(this).style("transform", "rotate("+angle+"deg)");
+				d3.select(this).text(angle);
+			});
+        </script>
+    </body>
+</html>

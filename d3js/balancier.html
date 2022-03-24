@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="utf-8">
+        <title>D3 - Balancier</title>
+        <script type="text/javascript" src="static/d3.v7.min.js"></script>
+    </head>
+    <body>
+		<svg width="400" height="400">
+			<rect id="balancier" x="190" y="100" width="20" height="300" 
+				style="transform-origin: 200px 110px">
+				
+			</rect>
+		</svg>
+        <script type="text/javascript">
+			d3.select("#balancier").style("transform", "rotate(30deg)")
+			
+			
+           setInterval(function () {
+				d3.select("#balancier")
+					.transition().duration(500).style("transform", "rotate(-30deg)")
+					.transition().duration(500).style("transform", "rotate(30deg)")
+		   }, 1000)
+        </script>
+    </body>
+</html>

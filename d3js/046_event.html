@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="utf-8">
+        <title>D3 - </title>
+        <script type="text/javascript" src="static/d3.v7.min.js"></script>
+		
+		<style>
+			#zoneEvenement {display: inline-block; width: 200px; height: 100px; background-color: grey}
+		</style>
+    </head>
+    <body>
+        <div id="zoneEvenement">clickable</div>
+		<script type="text/javascript">
+			d3.select("#zoneEvenement").datum("une donnée")
+			
+           d3.select("#zoneEvenement")
+				.on("click", function () {
+					console.log("click", d3.select(this).datum())
+				})
+		   
+		   d3.select("#zoneEvenement")
+				.on("mouseover", function () {
+						console.log("mouseover", d3.select(this).datum())
+				   })
+        </script>
+    </body>
+</html>

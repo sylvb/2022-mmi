@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="utf-8">
+        <title>D3 - select</title>
+        <script type="text/javascript" src="static/d3.v7.min.js"></script>
+    </head>
+    <body>
+		
+		<div class="hello"></div>
+		<div class="world"></div>
+		
+        <script type="text/javascript">
+			d3.select("div.hello")
+				.text("Bonjour");
+				
+			d3.select("div.world")
+				.text("tout le monde");				
+        </script>
+    </body>
+</html>

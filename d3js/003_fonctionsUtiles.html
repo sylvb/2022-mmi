@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="utf-8">
+        <title>D3 - </title>
+        <script type="text/javascript" src="static/d3.v7.min.js"></script>
+		<link rel="stylesheet" href="static/bootstrap.min.css" >
+		
+		<style>
+		.demo {
+			text-align: center;
+			padding: 40px; 0px;
+		}
+		
+		.legend {text-decoration: underline;}
+		</style>
+    </head>
+    <body>
+		<div></div>
+        <script type="text/javascript">
+			d3.select("div")
+				.attr("id", "identifiant")
+				.classed("demo", true)
+				.style("background-color", "#00ff0033")
+				.html("<img width=\"100px\" src=\"kiwi.svg\" alt=\"kiwi bird \" />" +
+						"<div class=\"legend\">kiwi</div><script>alert('injection protégée')<\/script>")
+        </script>
+    </body>
+</html>
